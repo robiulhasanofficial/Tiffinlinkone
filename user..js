@@ -1,5 +1,5 @@
 // user.js - সম্পূর্ণ সার্ভার-সাইড ইন্টিগ্রেশন ভার্সন
-const SERVER_URL = 'https://your-server-url.com'; // আপনার সার্ভারের URL এখানে দিন
+const SERVER_URL = 'https://tiffinlinkone.onrender.com'; // আপনার সার্ভারের URL এখানে দিন
 
 // বাংলাদেশের ৬৪ জেলার লিস্ট
 const bangladeshDistricts = [
