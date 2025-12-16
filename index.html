@@ -1,11 +1,2731 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>বইমেলা - প্রিমিয়াম বইয়ের দোকান</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #2E86C1;
+      --primary-dark: #1B4F72;
+      --secondary: #28B463;
+      --secondary-dark: #1D8348;
+      --danger: #E74C3C;
+      --warning: #F39C12;
+      --dark: #2C3E50;
+      --light: #F8F9F9;
+      --gray: #7F8C8D;
+      --border: #D5DBDB;
+      --green-bg: #D5F5E3;
+      --red-bg: #FADBD8;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Hind Siliguri', sans-serif; 
+      background: #f5f7fa; 
+      color: var(--dark); 
+      line-height: 1.6; 
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* Header Banner Styles */
+    .header-banner {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 12px 15px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      display: none;
+    }
+
+    .header-banner.show {
+      display: block;
+      animation: slideDown 0.5s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .banner-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .banner-text {
+      flex: 1;
+      text-align: left;
+    }
+
+    .banner-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .banner-description {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+
+    .banner-button {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .banner-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .banner-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.3s;
+      margin-left: 10px;
+    }
+
+    .banner-close:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .banner-image {
+      width: 60px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .banner-image.show {
+      display: block;
+    }
+
+    /* Header & Navigation */
+    .header { 
+      background: white; 
+      box-shadow: var(--shadow); 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
+    }
+    
+    .navbar { 
+      max-width: 100%; 
+      margin: 0 auto; 
+      padding: 0 15px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      height: 60px; 
+    }
+    
+    .logo { 
+      font-size: 1.4rem; 
+      font-weight: 700; 
+      color: var(--primary); 
+      text-decoration: none; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+    }
+    
+    .logo i { 
+      color: var(--warning); 
+      font-size: 1.2rem;
+    }
+    
+    .nav-links { 
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+      z-index: 1000;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .nav-links.mobile-open { 
+      display: flex;
+    }
+    
+    .nav-links a { 
+      text-decoration: none; 
+      color: var(--dark); 
+      font-weight: 500; 
+      transition: color 0.3s; 
+      cursor: pointer; 
+      font-size: 1rem;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .nav-links a:last-child {
+      border-bottom: none;
+    }
+    
+    .nav-links a:hover { 
+      color: var(--primary); 
+    }
+    
+    /* বিভাগ ড্রপডাউন স্টাইল */
+    .category-dropdown {
+      position: relative;
+    }
+    
+    .category-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 12px;
+      min-width: 200px;
+      z-index: 1001;
+      display: none;
+      margin-top: 8px;
+    }
+    
+    .category-menu.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .category-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .category-item:hover {
+      background: #e8f4fd;
+    }
+    
+    .category-item.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .category-item.active .category-count {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .category-count {
+      background: #f1f5f9;
+      color: var(--dark);
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    
+    /* মোবাইলে বিভাগ মেনু স্টাইল */
+    @media (max-width: 991px) {
+      .category-menu {
+        position: static;
+        box-shadow: none;
+        padding: 0;
+        background: transparent;
+        margin-top: 0;
+      }
+      
+      .category-item {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      
+      .category-item:last-child {
+        border-bottom: none;
+      }
+    }
+    
+    .nav-actions { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+    }
+    
+    .cart-icon { 
+      position: relative; 
+      font-size: 1.2rem; 
+      color: var(--dark); 
+      cursor: pointer; 
+      transition: color 0.3s;
+    }
+    
+    .cart-icon:hover {
+      color: var(--primary);
+    }
+    
+    .cart-count { 
+      position: absolute; 
+      top: -8px; 
+      right: -8px; 
+      background: var(--danger); 
+      color: white; 
+      font-size: 0.7rem; 
+      width: 18px; 
+      height: 18px; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: 600; 
+    }
+
+    /* Notification Icon */
+    .notification-icon { 
+      position: relative; 
+      font-size: 1.2rem; 
+      color: var(--dark); 
+      cursor: pointer; 
+      transition: color 0.3s;
+    }
+    
+    .notification-icon:hover {
+      color: var(--primary);
+    }
+    
+    .notification-count { 
+      position: absolute; 
+      top: -8px; 
+      right: -8px; 
+      background: var(--danger); 
+      color: white; 
+      font-size: 0.7rem; 
+      width: 18px; 
+      height: 18px; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: 600; 
+    }
+
+    /* Search Bar Below Navigation */
+    .search-container {
+      background: var(--primary);
+      padding: 12px 0;
+    }
+    
+    .search-bar { 
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 15px;
+      position: relative; 
+    }
+    
+    .search-bar input { 
+      padding: 12px 45px 12px 15px; 
+      border: none; 
+      border-radius: 8px; 
+      width: 100%; 
+      font-size: 0.95rem; 
+      transition: all 0.3s; 
+    }
+    
+    .search-bar input:focus { 
+      outline: none; 
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.3); 
+    }
+    
+    .search-bar i { 
+      position: absolute; 
+      right: 25px; 
+      top: 50%; 
+      transform: translateY(-50%); 
+      color: var(--primary); 
+      background: white;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    /* User Dropdown */
+    .user-info { 
+      font-weight: 600; 
+      color: white; 
+      background: var(--primary); 
+      padding: 6px 12px; 
+      border-radius: 16px; 
+      font-size: 0.85rem;
+      white-space: nowrap;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.3s;
+      position: relative;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .user-info:hover {
+      background: var(--primary-dark);
+    }
+    
+    .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 12px;
+      min-width: 180px;
+      z-index: 1001;
+      display: none;
+      margin-top: 8px;
+    }
+    
+    .user-dropdown.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-email {
+      font-weight: 600;
+      color: var(--primary);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+    }
+    
+    .logout-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .logout-btn:hover {
+      background: #C0392B;
+    }
+
+    .login-btn {
+      background: var(--primary); 
+      color: white; 
+      border: none; 
+      padding: 6px 12px; 
+      border-radius: 16px; 
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.85rem;
+    }
+    
+    .login-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .mobile-menu-btn { 
+      display: block; 
+      background: none; 
+      border: none; 
+      font-size: 1.3rem; 
+      color: var(--dark); 
+      cursor: pointer; 
+      transition: color 0.3s;
+    }
+    
+    .mobile-menu-btn:hover {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero { 
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
+      color: white; 
+      padding: 40px 15px; 
+      text-align: center; 
+      position: relative; 
+      overflow: hidden; 
+    }
+    
+    .hero h1 { 
+      font-size: 1.8rem; 
+      margin-bottom: 12px; 
+      font-family: 'Poppins', sans-serif; 
+      text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      line-height: 1.3;
+    }
+    
+    .hero p { 
+      font-size: 0.95rem; 
+      max-width: 100%; 
+      margin: 0 auto 20px; 
+      opacity: 0.9; 
+      line-height: 1.5;
+    }
+    
+    .hero .btn { 
+      background: white; 
+      color: var(--primary); 
+      padding: 12px 24px; 
+      border: none; 
+      border-radius: 8px; 
+      font-weight: 600; 
+      font-size: 1rem; 
+      cursor: pointer; 
+      transition: all 0.3s; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    }
+    
+    .hero .btn:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15); 
+    }
+
+    /* Main Container */
+    .container { 
+      max-width: 100%; 
+      margin: 20px auto; 
+      padding: 0 15px; 
+      display: flex;
+      flex-direction: column;
+      gap: 20px; 
+    }
+    
+    .sidebar { 
+      background: white; 
+      padding: 20px; 
+      border-radius: 12px; 
+      box-shadow: var(--shadow); 
+      height: fit-content; 
+      order: -1;
+    }
+    
+    .sidebar h3 { 
+      font-size: 1.2rem; 
+      margin-bottom: 15px; 
+      color: var(--dark); 
+      border-bottom: 2px solid var(--primary); 
+      padding-bottom: 8px; 
+    }
+    
+    .filter-group { 
+      margin-bottom: 20px; 
+    }
+    
+    .filter-group label { 
+      display: block; 
+      margin-bottom: 8px; 
+      font-weight: 500; 
+      color: var(--dark); 
+      font-size: 0.95rem;
+    }
+    
+    .filter-group select, .filter-group input { 
+      width: 100%; 
+      padding: 10px; 
+      border: 1.5px solid var(--border); 
+      border-radius: 8px; 
+      font-size: 0.9rem; 
+      transition: border 0.3s;
+    }
+    
+    .filter-group select:focus, .filter-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Products Grid */
+    .products-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+      gap: 15px; 
+    }
+    
+    .product-card { 
+      background: white; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: var(--shadow); 
+      transition: all 0.3s ease; 
+      position: relative; 
+    }
+    
+    .product-card:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12); 
+    }
+    
+    .product-img { 
+      height: 160px; 
+      overflow: hidden; 
+      position: relative; 
+    }
+    
+    .product-img img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      transition: transform 0.4s; 
+    }
+    
+    .product-card:hover .product-img img { 
+      transform: scale(1.08); 
+    }
+    
+    .product-info { 
+      padding: 12px; 
+    }
+    
+    .product-info h3 { 
+      font-size: 0.95rem; 
+      margin-bottom: 6px; 
+      color: var(--dark); 
+      display: -webkit-box; 
+      -webkit-line-clamp: 2; 
+      -webkit-box-orient: vertical; 
+      overflow: hidden; 
+      height: 2.6em;
+      line-height: 1.3;
+    }
+    
+    .rating { 
+      display: flex; 
+      align-items: center; 
+      gap: 4px; 
+      margin-bottom: 8px; 
+      font-size: 0.8rem; 
+      color: var(--warning); 
+    }
+    
+    .price { 
+      font-size: 1.1rem; 
+      font-weight: 700; 
+      color: var(--danger); 
+      margin-bottom: 10px; 
+    }
+    
+    .stock-info {
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .stock-available {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    
+    .stock-out {
+      color: var(--danger);
+      font-weight: 600;
+    }
+    
+    .quantity { 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      margin-bottom: 10px; 
+    }
+    
+    .quantity button { 
+      width: 28px; 
+      height: 28px; 
+      border: 1.5px solid var(--border); 
+      background: white; 
+      color: var(--dark); 
+      font-size: 0.9rem; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      transition: all 0.2s; 
+    }
+    
+    .quantity button:hover { 
+      background: var(--primary); 
+      color: white; 
+      border-color: var(--primary); 
+    }
+    
+    .quantity span { 
+      min-width: 30px; 
+      text-align: center; 
+      font-weight: 600; 
+      font-size: 1rem;
+    }
+    
+    .add-to-cart { 
+      width: 100%; 
+      padding: 10px; 
+      background: var(--secondary); 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: 0.3s; 
+      font-size: 0.9rem;
+    }
+    
+    .add-to-cart:hover { 
+      background: var(--secondary-dark); 
+    }
+    
+    .add-to-cart:disabled {
+      background: var(--gray);
+      cursor: not-allowed;
+    }
+    
+    .view-details-btn {
+      width: 100%;
+      padding: 8px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+    
+    .view-details-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Cart Sidebar */
+    .cart-sidebar { 
+      position: fixed; 
+      right: -100%; 
+      top: 0; 
+      width: 100%; 
+      height: 100vh; 
+      background: white; 
+      box-shadow: -5px 0 20px rgba(0,0,0,0.1); 
+      transition: right 0.4s ease; 
+      z-index: 2000; 
+      display: flex; 
+      flex-direction: column; 
+    }
+    
+    .cart-sidebar.open { 
+      right: 0; 
+    }
+    
+    .cart-header { 
+      padding: 15px; 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    
+    .cart-header h2 { 
+      font-size: 1.2rem; 
+    }
+    
+    .close-cart { 
+      background: none; 
+      border: none; 
+      color: white; 
+      font-size: 1.3rem; 
+      cursor: pointer; 
+      transition: transform 0.3s;
+    }
+    
+    .close-cart:hover {
+      transform: scale(1.1);
+    }
+    
+    .cart-body { 
+      flex: 1; 
+      padding: 15px; 
+      overflow-y: auto; 
+    }
+    
+    .cart-item { 
+      display: flex; 
+      gap: 10px; 
+      padding: 10px 0; 
+      border-bottom: 1px solid var(--border); 
+    }
+    
+    .cart-item img { 
+      width: 50px; 
+      height: 60px; 
+      object-fit: cover; 
+      border-radius: 6px; 
+    }
+    
+    .cart-item-info { 
+      flex: 1;
+    }
+    
+    .cart-item-info h4 { 
+      font-size: 0.9rem; 
+      margin-bottom: 4px; 
+    }
+    
+    .cart-item-info p { 
+      font-size: 0.85rem; 
+      color: var(--gray); 
+    }
+    
+    .remove-item { 
+      background: none; 
+      border: none; 
+      color: var(--danger); 
+      cursor: pointer; 
+      font-size: 1rem; 
+      transition: transform 0.3s;
+    }
+    
+    .remove-item:hover {
+      transform: scale(1.1);
+    }
+    
+    .cart-footer { 
+      padding: 15px; 
+      border-top: 1px solid var(--border); 
+      background: #f9fafb; 
+    }
+    
+    .cart-total { 
+      display: flex; 
+      justify-content: space-between; 
+      font-size: 1.1rem; 
+      font-weight: 700; 
+      margin-bottom: 12px; 
+    }
+    
+    .checkout-btn { 
+      width: 100%; 
+      padding: 12px; 
+      background: var(--primary); 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: 0.3s; 
+      font-size: 1rem;
+    }
+    
+    .checkout-btn:hover { 
+      background: var(--primary-dark); 
+    }
+
+    /* Notification Sidebar */
+    .notification-sidebar { 
+      position: fixed; 
+      right: -100%; 
+      top: 0; 
+      width: 100%; 
+      height: 100vh; 
+      background: white; 
+      box-shadow: -5px 0 20px rgba(0,0,0,0.1); 
+      transition: right 0.4s ease; 
+      z-index: 2000; 
+      display: flex; 
+      flex-direction: column; 
+    }
+    
+    .notification-sidebar.open { 
+      right: 0; 
+    }
+    
+    .notification-header { 
+      padding: 15px; 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    
+    .notification-header h2 { 
+      font-size: 1.2rem; 
+    }
+    
+    .close-notification { 
+      background: none; 
+      border: none; 
+      color: white; 
+      font-size: 1.3rem; 
+      cursor: pointer; 
+      transition: transform 0.3s;
+    }
+    
+    .close-notification:hover {
+      transform: scale(1.1);
+    }
+    
+    .notification-body { 
+      flex: 1; 
+      padding: 15px; 
+      overflow-y: auto; 
+    }
+    
+    .notification-item { 
+      display: flex; 
+      gap: 10px; 
+      padding: 12px; 
+      border-bottom: 1px solid var(--border); 
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: #f8fafc;
+      transition: all 0.3s;
+    }
+    
+    .notification-item:hover { 
+      background: #e8f4fd;
+    }
+    
+    .notification-item.unread { 
+      background: #e8f4fd;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .notification-icon-small { 
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-top: 2px;
+    }
+    
+    .notification-content { 
+      flex: 1;
+    }
+    
+    .notification-title { 
+      font-size: 0.95rem; 
+      font-weight: 600;
+      margin-bottom: 4px; 
+      color: var(--dark);
+    }
+    
+    .notification-message { 
+      font-size: 0.85rem; 
+      color: var(--gray);
+      line-height: 1.4;
+    }
+    
+    .notification-time { 
+      font-size: 0.75rem; 
+      color: var(--gray);
+      margin-top: 6px;
+    }
+    
+    .no-notifications { 
+      text-align: center; 
+      color: var(--gray); 
+      padding: 40px 20px;
+    }
+
+    /* Modal Styles */
+    .modal { 
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0; 
+      background: rgba(0,0,0,0.5); 
+      z-index: 3000; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 15px; 
+    }
+    
+    .modal.open { 
+      display: flex; 
+    }
+    
+    .modal-content { 
+      background: white; 
+      border-radius: 12px; 
+      width: 100%; 
+      max-width: 500px; 
+      max-height: 90vh; 
+      overflow-y: auto; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+      animation: modalFade 0.4s ease; 
+    }
+    
+    @keyframes modalFade { 
+      from { opacity: 0; transform: scale(0.9); } 
+      to { opacity: 1; transform: scale(1); } 
+    }
+    
+    .modal-header { 
+      padding: 20px; 
+      border-bottom: 1px solid var(--border); 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    
+    .modal-header h2 { 
+      font-size: 1.3rem; 
+    }
+    
+    .close-modal { 
+      background: none; 
+      border: none; 
+      font-size: 1.3rem; 
+      color: var(--gray); 
+      cursor: pointer; 
+      transition: color 0.3s;
+    }
+    
+    .close-modal:hover {
+      color: var(--dark);
+    }
+    
+    .modal-body { 
+      padding: 20px; 
+    }
+    
+    .form-group { 
+      margin-bottom: 15px; 
+    }
+    
+    label { 
+      display: block; 
+      margin-bottom: 6px; 
+      font-weight: 600; 
+      color: var(--dark); 
+      font-size: 0.95rem;
+    }
+    
+    input, textarea, select { 
+      width: 100%; 
+      padding: 10px; 
+      border: 1.5px solid var(--border); 
+      border-radius: 8px; 
+      font-size: 0.95rem; 
+      transition: 0.3s; 
+      font-family: 'Hind Siliguri', sans-serif;
+    }
+    
+    input:focus, textarea:focus, select:focus { 
+      outline: none; 
+      border-color: var(--primary); 
+      box-shadow: 0 0 0 2px rgba(46, 134, 193, 0.15); 
+    }
+    
+    .payment-methods { 
+      display: flex; 
+      gap: 10px; 
+      flex-wrap: wrap; 
+      margin-top: 8px; 
+    }
+    
+    .payment-option { 
+      flex: 1; 
+      min-width: 100px; 
+      padding: 10px; 
+      border: 2px solid var(--border); 
+      border-radius: 8px; 
+      text-align: center; 
+      cursor: pointer; 
+      transition: all 0.3s; 
+      font-weight: 500; 
+      font-size: 0.9rem;
+    }
+    
+    .payment-option.active { 
+      border-color: var(--primary); 
+      background: #e8f4fd; 
+      color: var(--primary); 
+    }
+    
+    .payment-option i { 
+      font-size: 1.3rem; 
+      margin-bottom: 6px; 
+      display: block; 
+    }
+    
+    .order-summary { 
+      background: #f8fafc; 
+      padding: 15px; 
+      border-radius: 8px; 
+      margin: 15px 0; 
+    }
+    
+    .summary-row { 
+      display: flex; 
+      justify-content: space-between; 
+      margin-bottom: 8px; 
+      font-size: 0.9rem; 
+    }
+    
+    .summary-total { 
+      font-weight: 700; 
+      font-size: 1.1rem; 
+      color: var(--primary); 
+      border-top: 1px solid var(--border); 
+      padding-top: 8px; 
+    }
+    
+    .submit-order { 
+      width: 100%; 
+      padding: 14px; 
+      background: linear-gradient(135deg, var(--secondary), var(--secondary-dark)); 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      font-size: 1rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      margin-top: 10px; 
+      transition: 0.3s; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .submit-order:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 15px rgba(40, 180, 99, 0.3); 
+    }
+    
+    .submit-order:disabled {
+      background: var(--gray);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .test-btn { 
+      width: 100%; 
+      padding: 10px; 
+      background: var(--warning); 
+      color: white; 
+      border: none; 
+      border-radius: 6px; 
+      margin-top: 10px; 
+      cursor: pointer; 
+      font-size: 0.85rem; 
+      transition: background 0.3s;
+    }
+    
+    .test-btn:hover {
+      background: #E67E22;
+    }
+    
+    .submit-btn { 
+      width: 100%; 
+      padding: 12px; 
+      background: var(--primary); 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      font-weight: 600; 
+      font-size: 1rem; 
+      cursor: pointer; 
+      transition: 0.3s; 
+    }
+    
+    .submit-btn:hover { 
+      background: var(--primary-dark); 
+    }
+
+    .confirmation-modal .modal-content { 
+      text-align: center; 
+      padding: 30px; 
+    }
+    
+    .confirmation-modal h1 { 
+      color: var(--secondary); 
+      font-size: 2rem; 
+      margin-bottom: 12px; 
+    }
+    
+    .order-id { 
+      background: var(--green-bg); 
+      color: var(--secondary-dark); 
+      padding: 10px 20px; 
+      border-radius: 50px; 
+      display: inline-block; 
+      font-weight: 700; 
+      margin: 15px 0; 
+      font-size: 1rem; 
+    }
+
+    .balance-result { 
+      margin-top: 15px; 
+      padding: 12px; 
+      border-radius: 8px; 
+      text-align: center; 
+      font-weight: 600; 
+      display: none; 
+    }
+    
+    .balance-result.success { 
+      background: var(--green-bg); 
+      color: var(--secondary-dark); 
+      border: 2px solid var(--secondary); 
+    }
+    
+    .balance-result.error { 
+      background: var(--red-bg); 
+      color: #A93226; 
+      border: 2px solid var(--danger); 
+    }
+
+    .form-row { 
+      display: grid; 
+      grid-template-columns: 1fr; 
+      gap: 12px; 
+      margin-bottom: 12px; 
+    }
+    
+    .toast { 
+      position: fixed; 
+      top: 15px; 
+      right: 15px; 
+      background: var(--dark); 
+      color: white; 
+      padding: 12px 16px; 
+      border-radius: 8px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+      z-index: 5000; 
+      animation: toastSlide 0.4s ease; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      max-width: 300px;
+      font-size: 0.9rem;
+    }
+    
+    .toast.error { 
+      background: var(--danger); 
+    }
+    
+    .toast.success {
+      background: var(--secondary);
+    }
+    
+    @keyframes toastSlide { 
+      from { transform: translateX(100%); opacity: 0; } 
+      to { transform: translateX(0); opacity: 1; } 
+    }
+
+    .order-item { 
+      border-bottom: 1px solid var(--border); 
+      padding: 12px 0; 
+      margin-bottom: 10px; 
+      border-radius: 6px; 
+    }
+    
+    .order-item.pending { 
+      background: #FEF9E7; 
+      border-left: 4px solid var(--warning); 
+      padding: 12px; 
+    }
+    
+    .order-item.delivered { 
+      background: var(--green-bg); 
+      border-left: 4px solid var(--secondary); 
+      padding: 12px; 
+    }
+    
+    .order-item.cancelled { 
+      background: var(--red-bg); 
+      border-left: 4px solid var(--danger); 
+      padding: 12px; 
+    }
+    
+    .order-item h3 { 
+      font-size: 1rem; 
+      margin-bottom: 6px; 
+    }
+    
+    .order-item p { 
+      font-size: 0.9rem; 
+      margin-bottom: 4px; 
+    }
+    
+    .order-item ul { 
+      list-style: none; 
+      margin-top: 6px; 
+      font-size: 0.85rem; 
+      color: var(--gray); 
+    }
+
+    /* Gmail Login Styles */
+    .google-login-btn {
+      width: 100%;
+      padding: 12px;
+      background: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    
+    .google-login-btn:hover {
+      background: #3367d6;
+    }
+    
+    .login-modal .modal-content {
+      text-align: center;
+    }
+    
+    .login-modal h2 {
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .login-modal p {
+      color: var(--gray);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    /* Message System Styles */
+    .message-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .message-toggle-btn {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(46, 134, 193, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .message-toggle-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(46, 134, 193, 0.6);
+    }
+
+    .message-container {
+      position: absolute;
+      bottom: 60px;
+      right: 0;
+      width: calc(100vw - 40px);
+      height: 400px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .message-container.open {
+      display: flex;
+    }
+
+    .message-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 12px;
+      text-align: center;
+      position: relative;
+    }
+
+    .message-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .close-message {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    .message-body {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: #e8f4fd;
+      color: var(--dark);
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.admin {
+      align-self: flex-start;
+      background: #f1f5f9;
+      color: var(--dark);
+      border-bottom-left-radius: 4px;
+    }
+
+    .message-time {
+      font-size: 0.65rem;
+      color: var(--gray);
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .message-input-container {
+      padding: 12px;
+      border-top: 1px solid var(--border);
+      background: white;
+    }
+
+    .message-input-wrapper {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .message-input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      resize: none;
+      max-height: 80px;
+      min-height: 40px;
+    }
+
+    .message-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .send-message-btn {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
+
+    .send-message-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .send-message-btn:disabled {
+      background: var(--gray);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .no-messages {
+      text-align: center;
+      color: var(--gray);
+      padding: 30px 15px;
+      font-size: 0.85rem;
+    }
+
+    .message-status {
+      font-size: 0.65rem;
+      color: var(--gray);
+      text-align: center;
+      padding: 4px;
+    }
+
+    /* Loading animation */
+    .message-loading {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .message-loading span {
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: messageLoading 1.4s ease-in-out infinite both;
+    }
+
+    .message-loading span:nth-child(1) { animation-delay: -0.32s; }
+    .message-loading span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes messageLoading {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Responsive Ad Styles */
+    .responsive-ad {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 12px;
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+      z-index: 9999;
+      display: none;
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
+    }
+    
+    .responsive-ad.show {
+      transform: translateY(0);
+    }
+    
+    .ad-content {
+      max-width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    
+    .ad-text {
+      flex: 1;
+    }
+    
+    .ad-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    
+    .ad-description {
+      font-size: 0.8rem;
+      opacity: 0.9;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    
+    .ad-cta {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .ad-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .ad-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+    
+    .ad-close:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    /* Desktop version */
+    .desktop-ad {
+      display: none;
+    }
+
+    /* Card Info Display */
+    .card-info {
+      background: #f8f9f9;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 12px 0;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .card-info h4 {
+      color: var(--primary);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    
+    .card-info p {
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+    
+    .card-info .card-balance {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-align: center;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* Special offer badge */
+    .offer-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--danger);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 16px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      z-index: 10;
+    }
+    
+    /* Loading Spinner */
+    .loading-spinner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Blocked User Overlay */
+    .blocked-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 9998;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .blocked-overlay.show {
+      display: flex;
+    }
+    
+    .blocked-message {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .blocked-message h2 {
+      color: var(--danger);
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    
+    .blocked-message p {
+      color: var(--dark);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    /* Book Details Modal Styles */
+    .book-details-modal .modal-content {
+      max-width: 600px;
+    }
+    
+    .book-details-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    @media (min-width: 768px) {
+      .book-details-content {
+        flex-direction: row;
+      }
+    }
+    
+    .book-details-image {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .book-details-image img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .book-details-info {
+      flex: 2;
+    }
+    
+    .book-details-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--dark);
+    }
+    
+    .book-details-meta {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .book-details-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--danger);
+    }
+    
+    .book-details-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--warning);
+      font-weight: 600;
+    }
+    
+    .book-details-stock {
+      padding: 4px 8px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .stock-available {
+      background: var(--green-bg);
+      color: var(--secondary-dark);
+    }
+    
+    .stock-out {
+      background: var(--red-bg);
+      color: var(--danger);
+    }
+    
+    .book-details-category {
+      background: var(--primary);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .book-details-description {
+      margin-bottom: 20px;
+      line-height: 1.6;
+      color: var(--dark);
+    }
+    
+    .book-details-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .book-details-quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .book-details-quantity button {
+      width: 35px;
+      height: 35px;
+      border: 1.5px solid var(--border);
+      background: white;
+      color: var(--dark);
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .book-details-quantity button:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .book-details-quantity span {
+      min-width: 40px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    /* Rating System Styles */
+    .rating-system {
+      margin: 15px 0;
+    }
+    
+    .rating-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+    
+    .star-rating {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .star {
+      font-size: 1.5rem;
+      color: #ddd;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    
+    .star:hover,
+    .star.active {
+      color: var(--warning);
+    }
+    
+    .rating-feedback {
+      margin-top: 10px;
+    }
+    
+    .rating-feedback textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      resize: vertical;
+      min-height: 80px;
+    }
+    
+    .submit-rating-btn {
+      background: var(--warning);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+    
+    .submit-rating-btn:hover {
+      background: #E67E22;
+    }
+    
+    /* Comments Section Styles */
+    .comments-section {
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 15px;
+    }
+    
+    .comments-title {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--dark);
+      font-size: 1.1rem;
+    }
+    
+    .comment-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+    
+    .comment-item {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-left: 3px solid var(--primary);
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .comment-user {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+    
+    .comment-rating {
+      color: var(--warning);
+      font-size: 0.8rem;
+    }
+    
+    .comment-text {
+      color: var(--dark);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    
+    .comment-time {
+      font-size: 0.75rem;
+      color: var(--gray);
+      margin-top: 5px;
+      text-align: right;
+    }
+    
+    .no-comments {
+      text-align: center;
+      color: var(--gray);
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+    
+    /* Address Management Styles */
+    .address-management {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border);
+    }
+    
+    .address-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .address-title {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+    
+    .edit-address-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .edit-address-btn:hover {
+      background: var(--primary-dark);
+    }
+    
+    .saved-address {
+      background: white;
+      border-radius: 6px;
+      padding: 10px;
+      border: 1px solid var(--border);
+    }
+    
+    .saved-address p {
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .no-address {
+      text-align: center;
+      color: var(--gray);
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+    
+    /* Tablet Styles */
+    @media (min-width: 768px) {
+      .navbar { 
+        padding: 0 20px; 
+      }
+      
+      .logo { 
+        font-size: 1.5rem; 
+      }
+      
+      .hero { 
+        padding: 50px 20px; 
+      }
+      
+      .hero h1 { 
+        font-size: 2.2rem; 
+      } 
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .container { 
+        padding: 0 20px; 
+      }
+      
+      .products-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+        gap: 20px; 
+      }
+      
+      .product-img { 
+        height: 200px; 
+      }
+      
+      .cart-sidebar { 
+        width: 400px; 
+      }
+      
+      .notification-sidebar { 
+        width: 400px; 
+      }
+      
+      .message-container {
+        width: 350px;
+        height: 450px;
+      }
+
+      .header-banner {
+        padding: 12px 20px;
+      }
+
+      .banner-title {
+        font-size: 1.2rem;
+      }
+
+      .banner-description {
+        font-size: 1rem;
+      }
+
+      .banner-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+
+      .banner-image {
+        width: 80px;
+        height: 50px;
+      }
+    }
+    
+    /* Desktop Styles */
+    @media (min-width: 992px) {
+      .nav-links { 
+        display: flex; 
+        position: static;
+        flex-direction: row;
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        gap: 20px;
+      }
+      
+      .nav-links a { 
+        border-bottom: none;
+        padding: 5px 0;
+        position: relative;
+      }
+      
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.3s;
+      }
+      
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      
+      .mobile-menu-btn { 
+        display: none; 
+      }
+      
+      .container { 
+        grid-template-columns: 250px 1fr; 
+        display: grid;
+        max-width: 1400px;
+        margin: 40px auto;
+      }
+      
+      .sidebar { 
+        order: 0;
+        position: sticky;
+        top: 140px;
+      }
+      
+      .products-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+      }
+      
+      .form-row { 
+        grid-template-columns: 1fr 1fr; 
+      }
+      
+      .desktop-ad {
+        display: block;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 12px;
+        max-width: 1200px;
+        box-shadow: 0 4px 20px rgba(46, 134, 193, 0.2);
+      }
+      
+      .desktop-ad-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      
+      .desktop-ad-text {
+        flex: 1;
+      }
+      
+      .desktop-ad-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      
+      .desktop-ad-description {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-bottom: 8px;
+      }
+      
+      .desktop-ad-cta {
+        background: white;
+        color: var(--primary);
+        border: none;
+        padding: 12px 24px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      
+      .desktop-ad-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      }
+      
+      .desktop-ad-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background 0.3s;
+      }
+      
+      .desktop-ad-close:hover {
+        background: rgba(255,255,255,0.1);
+      }
+      
+      .responsive-ad { 
+        display: none !important; 
+      }
+
+      .header-banner {
+        padding: 15px 20px;
+      }
+
+      .banner-title {
+        font-size: 1.3rem;
+      }
+
+      .banner-description {
+        font-size: 1.1rem;
+      }
+
+      .banner-button {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+
+      .banner-image {
+        width: 100px;
+        height: 60px;
+      }
+    }
+  </style>
 </head>
 <body>
-    
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyB1gSjfgI0Jh2nJfDhDeSJXff824qIrzto",
+      authDomain: "yout-7c06d.firebaseapp.com",
+      databaseURL: "https://yout-7c06d-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "yout-7c06d",
+      storageBucket: "yout-7c06d.firebasestorage.app",
+      messagingSenderId: "845164564383",
+      appId: "1:845164564383:web:47171b5edbcb833586f7aa"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+  </script>
+
+  <!-- Blocked User Overlay -->
+  <div class="blocked-overlay" id="blocked-overlay">
+    <div class="blocked-message">
+      <h2><i class="fas fa-ban"></i> অ্যাকাউন্ট ব্লক করা হয়েছে</h2>
+      <p>আপনার অ্যাকাউন্টটি এডমিন দ্বারা ব্লক করা হয়েছে। আপনি শুধুমাত্র মেসেজিং সিস্টেম ব্যবহার করতে পারবেন।</p>
+      <p>আরও তথ্যের জন্য এডমিনের সাথে যোগাযোগ করুন।</p>
+      <button class="submit-btn" onclick="document.getElementById('blocked-overlay').classList.remove('show')">ঠিক আছে</button>
+    </div>
+  </div>
+
+  <!-- Header Banner -->
+  <div class="header-banner" id="header-banner">
+    <div class="banner-content">
+      <img class="banner-image" id="banner-image" alt="ব্যানার ইমেজ">
+      <div class="banner-text">
+        <div class="banner-title" id="banner-title">বিশেষ অফার - নতুন গ্রাহকদের জন্য!</div>
+        <div class="banner-description" id="banner-description">প্রথম অর্ডারে ১৫% ডিসকাউন্ট পাচ্ছেন। আজই অর্ডার করুন!</div>
+      </div>
+      <a class="banner-button" id="banner-button" href="#">অর্ডার করুন</a>
+      <button class="banner-close" id="banner-close">×</button>
+    </div>
+  </div>
+
+  <!-- Responsive Ad for Mobile -->
+  <div class="responsive-ad" id="responsive-ad">
+    <div class="ad-content">
+      <div class="ad-text">
+        <div class="ad-title">বিশেষ অফার - নতুন গ্রাহকদের জন্য!</div>
+        <div class="ad-description">প্রথম অর্ডারে ১৫% ডিসকাউন্ট পাচ্ছেন। আজই অর্ডার করুন!</div>
+      </div>
+      <button class="ad-cta" id="ad-cta">অর্ডার করুন</button>
+      <button class="ad-close" id="ad-close">×</button>
+    </div>
+  </div>
+
+  <!-- Desktop Ad -->
+  <div class="desktop-ad" id="desktop-ad">
+    <div class="desktop-ad-content">
+      <div class="desktop-ad-text">
+        <div class="desktop-ad-title">বিশেষ অফার - নতুন গ্রাহকদের জন্য!</div>
+        <div class="desktop-ad-description">আপনার প্রথম অর্ডারে পাচ্ছেন ১৫% ডিসকাউন্ট। আজই অর্ডার করুন এবং আমাদের প্রিমিয়াম বইগুলো উপভোগ করুন!</div>
+      </div>
+      <button class="desktop-ad-cta" id="desktop-ad-cta">অর্ডার করুন</button>
+      <button class="desktop-ad-close" id="desktop-ad-close">×</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar">
+      <a href="#" class="logo"><i class="fas fa-book"></i> Tiffin link</a>
+      <button class="mobile-menu-btn" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#">হোম</a></li>
+        <li class="category-dropdown">
+          <a href="#" id="books-link">বইসমূহ <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i></a>
+          <div class="category-menu" id="category-menu">
+            <div class="category-item active" data-category="">
+              <span>সব বিভাগ</span>
+              <span class="category-count" id="count-all">0</span>
+            </div>
+            <div class="category-item" data-category="story">
+              <span>গল্প ও উপন্যাস</span>
+              <span class="category-count" id="count-story">0</span>
+            </div>
+            <div class="category-item" data-category="science">
+              <span>বিজ্ঞান ও প্রযুক্তি</span>
+              <span class="category-count" id="count-science">0</span>
+            </div>
+            <div class="category-item" data-category="history">
+              <span>ইতিহাস</span>
+              <span class="category-count" id="count-history">0</span>
+            </div>
+            <div class="category-item" data-category="biography">
+              <span>জীবনী</span>
+              <span class="category-count" id="count-biography">0</span>
+            </div>
+            <div class="category-item" data-category="children">
+              <span>শিশু-কিশোর</span>
+              <span class="category-count" id="count-children">0</span>
+            </div>
+          </div>
+        </li>
+        <li><a href="#">বেস্টসেলার</a></li>
+        <li><a href="#">অফার</a></li>
+        <li><a id="card-check-link">কার্ড চেক</a></li>
+        <li><a id="balance-transfer-link">ব্যালেন্স ট্রান্সফার</a></li>
+        <li><a id="order-list-link">আমার অর্ডার</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div id="user-display-container" style="display:none;">
+          <div class="user-info" id="user-display">
+            <i class="fas fa-user"></i>
+            <span id="user-name"></span>
+            <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
+          </div>
+          <div class="user-dropdown" id="user-dropdown">
+            <div class="user-email" id="user-email-display"></div>
+            <button class="logout-btn" id="logout-btn">
+              <i class="fas fa-sign-out-alt"></i> লগ আউট
+            </button>
+          </div>
+        </div>
+        <div id="login-button-container">
+          <button class="login-btn" id="login-btn"><i class="fas fa-user"></i> লগইন</button>
+        </div>
+        
+        <!-- Notification Icon -->
+        <div class="notification-icon" id="notification-toggle">
+          <i class="fas fa-bell"></i>
+          <span class="notification-count" id="notification-count">0</span>
+        </div>
+        
+        <div class="cart-icon" id="cart-toggle">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cart-count">0</span>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Search Bar Below Navigation -->
+  <div class="search-container">
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="বই খুঁজুন... (যেমন: গল্প, বিজ্ঞান, ইতিহাস)" />
+      <i class="fas fa-search" id="search-icon"></i>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>বইমেলা - প্রিমিয়াম বইয়ের দোকান</h1>
+      <p>হাজারো বই, সেরা মূল্য, দ্রুত ডেলিভারি - আপনার পড়ার অভিজ্ঞতা উন্নত করুন</p>
+      <button class="btn">কেনাকাটা শুরু করুন</button>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <div class="container">
+    <aside class="sidebar">
+      <h3><i class="fas fa-filter"></i> ফিল্টার</h3>
+      <div class="filter-group">
+        <label>বিভাগ</label>
+        <select id="category-filter">
+          <option value="">সব বিভাগ</option>
+          <option value="story">গল্প ও উপন্যাস</option>
+          <option value="science">বিজ্ঞান ও প্রযুক্তি</option>
+          <option value="history">ইতিহাস</option>
+          <option value="biography">জীবনী</option>
+          <option value="children">শিশু-কিশোর</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>মূল্য সীমা: ৳<span id="price-value">500</span></label>
+        <input type="range" id="price-range" min="0" max="500" value="500" />
+      </div>
+      <div class="filter-group">
+        <label>রেটিং</label>
+        <select id="rating-filter">
+          <option value="">সব রেটিং</option>
+          <option value="5">৫ স্টার</option>
+          <option value="4">৪+ স্টার</option>
+          <option value="3">৩+ স্টার</option>
+        </select>
+      </div>
+    </aside>
+
+    <main>
+      <div class="products-grid" id="products-grid">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h2><i class="fas fa-shopping-cart"></i> আপনার কার্ট</h2>
+      <button class="close-cart" id="close-cart">×</button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>মোট:</span>
+        <span id="cart-total">৳0</span>
+      </div>
+      <button class="checkout-btn" id="proceed-checkout"><i class="fas fa-credit-card"></i> চেকআউট করুন</button>
+    </div>
+  </div>
+
+  <!-- Notification Sidebar -->
+  <div class="notification-sidebar" id="notification-sidebar">
+    <div class="notification-header">
+      <h2><i class="fas fa-bell"></i> নোটিফিকেশন</h2>
+      <button class="close-notification" id="close-notification">×</button>
+    </div>
+    <div class="notification-body" id="notification-body">
+      <div class="no-notifications" id="no-notifications">
+        <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 10px; color: var(--gray);"></i>
+        <p>কোনো নোটিফিকেশন নেই</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Details Modal -->
+  <div class="modal book-details-modal" id="book-details-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-book"></i> বইয়ের বিস্তারিত</h2>
+        <button class="close-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="book-details-content" id="book-details-content">
+          <!-- Book details will be loaded here dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal" id="checkout-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-shopping-bag"></i> চেকআউট</h2>
+        <button class="close-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="checkout-form">
+          <!-- Address Management Section -->
+          <div class="address-management">
+            <div class="address-header">
+              <div class="address-title"><i class="fas fa-home"></i> ঠিকানা ব্যবস্থাপনা</div>
+              <button type="button" class="edit-address-btn" id="edit-address-btn">ঠিকানা পরিবর্তন</button>
+            </div>
+            <div id="saved-address-section">
+              <div class="saved-address" id="saved-address">
+                <!-- Saved address will be loaded here -->
+              </div>
+              <div class="no-address" id="no-address" style="display: none;">
+                <p>কোনো ঠিকানা সংরক্ষণ করা নেই। নতুন ঠিকানা যোগ করুন।</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>নাম *</label>
+              <input type="text" id="checkout-name" required />
+            </div>
+            <div class="form-group">
+              <label>ইমেইল *</label>
+              <input type="email" id="checkout-email" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>ঠিকানা *</label>
+            <textarea required rows="3" id="checkout-address" placeholder="আপনার সম্পূর্ণ ঠিকানা লিখুন"></textarea>
+          </div>
+          <div class="form-group">
+            <label>মোবাইল নাম্বার *</label>
+            <input type="tel" id="checkout-phone" required placeholder="যেমন: 01XXXXXXXXX" />
+          </div>
+          <div class="form-group">
+            <label>জেলা *</label>
+            <select id="district-select" required>
+              <option value="">জেলা নির্বাচন করুন</option>
+              <!-- জেলাগুলো জাভাস্ক্রিপ্ট দিয়ে যোগ করা হবে -->
+            </select>
+          </div>
+
+          <div class="card-info">
+            <h4><i class="fas fa-credit-card"></i> ভোটার কার্ড তথ্য</h4>
+            <div class="form-group">
+              <label>কার্ড আইডি *</label>
+              <input type="text" id="checkout-card-id" required placeholder="যেমন: 552hh" />
+            </div>
+            <div class="form-group">
+              <label>কার্ড পাসওয়ার্ড *</label>
+              <input type="password" id="checkout-card-password" required placeholder="আপনার কার্ড পাসওয়ার্ড" />
+            </div>
+          </div>
+
+          <div class="order-summary">
+            <h4>অর্ডার সামারি</h4>
+            <div class="summary-row"><span>সাবটোটাল:</span> <span id="summary-subtotal">৳0</span></div>
+            <div class="summary-row"><span>ডেলিভারি চার্জ:</span> <span id="summary-shipping">৳0</span></div>
+            <div class="summary-total"><span>মোট:</span> <span id="summary-total">৳0</span></div>
+          </div>
+
+          <button type="button" class="test-btn" onclick="testTelegram()"><i class="fas fa-paper-plane"></i> টেলিগ্রাম টেস্ট করুন</button>
+          <button type="submit" class="submit-order" id="submit-order-btn">
+            <span id="order-text"><i class="fas fa-check-circle"></i> অর্ডার কনফার্ম করুন</span>
+            <i class="fas fa-spinner fa-spin" id="order-loader" style="display:none;"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal confirmation-modal" id="confirmation-modal">
+    <div class="modal-content">
+      <h1><i class="fas fa-check-circle"></i> অর্ডার সফল!</h1>
+      <p>আপনার অর্ডার গৃহীত হয়েছে এবং প্রসেসিং করা হচ্ছে</p>
+      <div class="order-id" id="final-order-id">#ORD-000000</div>
+      <p>আপনার অর্ডার আইডি সংরক্ষণ করুন। অর্ডার স্ট্যাটাস চেক করতে 'আমার অর্ডার' দেখুন</p>
+      <button class="submit-btn close-modal">ধন্যবাদ</button>
+    </div>
+  </div>
+
+  <!-- Card Check Modal -->
+  <div class="modal" id="card-check-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-credit-card"></i> কার্ড ব্যালেন্স চেক</h2>
+        <button class="close-modal" id="close-card-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="card-check-form">
+          <div class="form-group">
+            <label>কার্ড আইডি</label>
+            <input type="text" id="modal-card-id" required placeholder="যেমন: 552hh" />
+          </div>
+          <div class="form-group">
+            <label>পাসওয়ার্ড</label>
+            <input type="password" id="modal-card-password" required placeholder="আপনার কার্ড পাসওয়ার্ড" />
+          </div>
+          <button type="submit" class="submit-btn"><i class="fas fa-search"></i> চেক করুন</button>
+          <div id="modal-balance-result" class="balance-result"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Balance Transfer Modal -->
+  <div class="modal" id="balance-transfer-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-exchange-alt"></i> ব্যালেন্স ট্রান্সফার</h2>
+        <button class="close-modal" id="close-balance-transfer">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="balance-transfer-form">
+          <div class="card-info">
+            <h4><i class="fas fa-credit-card"></i> আপনার কার্ড তথ্য</h4>
+            <div class="form-group">
+              <label>আপনার কার্ড আইডি *</label>
+              <input type="text" id="from-card-id" required placeholder="যেমন: 552hh" />
+            </div>
+            <div class="form-group">
+              <label>আপনার কার্ড পাসওয়ার্ড *</label>
+              <input type="password" id="from-card-password" required placeholder="আপনার কার্ড পাসওয়ার্ড" />
+            </div>
+          </div>
+          
+          <div class="card-info" style="border-left-color: var(--secondary);">
+            <h4><i class="fas fa-credit-card"></i> প্রাপকের কার্ড তথ্য</h4>
+            <div class="form-group">
+              <label>প্রাপকের কার্ড আইডি *</label>
+              <input type="text" id="to-card-id" required placeholder="যেমন: 553hh" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>ট্রান্সফার করার পরিমাণ *</label>
+            <input type="number" id="transfer-amount" required placeholder="৳" min="1" />
+          </div>
+          
+          <button type="submit" class="submit-btn"><i class="fas fa-exchange-alt"></i> ট্রান্সফার করুন</button>
+          <div id="transfer-result" class="balance-result"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Order List Modal -->
+  <div class="modal" id="order-list-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-list-alt"></i> আমার অর্ডারসমূহ</h2>
+        <button class="close-modal" id="close-order-list">×</button>
+      </div>
+      <div class="modal-body" id="order-list-body"></div>
+    </div>
+  </div>
+
+  <!-- Gmail Login Modal -->
+  <div class="modal login-modal" id="gmail-login-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-user-circle"></i> লগইন করুন</h2>
+        <button class="close-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <p>আপনার Gmail অ্যাকাউন্ট দিয়ে লগইন করুন</p>
+        <button class="google-login-btn" id="google-login-btn">
+          <i class="fab fa-google"></i>
+          Gmail দিয়ে লগইন করুন
+        </button>
+        <div id="login-status" style="margin-top: 15px; display: none;">
+          <div class="user-email" id="login-user-email"></div>
+          <p style="color: var(--success); font-weight: 600;">লগইন সফল!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="user..js"></script>
 </body>
 </html>
